@@ -11,7 +11,7 @@ let finalTeamArray = [];
 function startingPrompt() {
     inquirer.prompt([
         {
-            message: "/////////Welcome to Team Generator 5000! Please write your team name://///////",
+            message: "******** Welcome to Team Profile Generator! Please enter your team name: ********",
             name: "teamname"
         }
     ])
@@ -27,12 +27,28 @@ function startingPrompt() {
 function addManager() {
     inquirer.prompt([
         {
-            message: "What is your team manager's name?",
-            name: "name"
+            message: "What is your team manager's name? (Required)",
+            name: "name",
+            validate: nameInput => {
+                if (nameInput) {
+                    return true;
+                } else {
+                    return "Please enter your manager's name";
+                }
+            }
         },
         {
             message: "What is your team manager's email address?",
-            name: "email"
+            name: "email",
+            validate: email => {
+                const valid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
+
+                if (valid) {
+                    return true;
+                } else {
+                    return "Please enter a valid email address";
+                }
+            }
         },
 
         {
@@ -42,9 +58,9 @@ function addManager() {
         },
     ])
 
-        .then(function (data) {
+        .then(data => {
             const name = data.name;
-            const id = 1;
+            const id = finalTeamArray.length;
             const email = data.email;
             const officeNumber = data.officeNumber;
             const teamMember = new Manager(name, id, email, officeNumber);
@@ -84,12 +100,28 @@ function addTeamMembers() {
 function addEngineer() {
     inquirer.prompt([
         {
-            message: "What is this engineer's name?",
-            name: "name"
+            message: "What is this engineer's name? (Required)",
+            name: "name",
+            validate: nameInput => {
+                if (nameInput) {
+                    return true;
+                } else {
+                    return "Please enter the engineer's name";
+                }
+            }
         },
         {
             message: "What is this engineer's email address?",
-            name: "email"
+            name: "email",
+            validate: email => {
+                const valid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
+
+                if (valid) {
+                    return true;
+                } else {
+                    return "Please enter a valid email address";
+                }
+            }
         },
         {
             message: "What is this engineer's Github profile?",
@@ -99,7 +131,7 @@ function addEngineer() {
 
         .then(data => {
             const name = data.name;
-            const id = finalTeamArray.length + 1;
+            const id = finalTeamArray.length;
             const email = data.email;
             const github = data.github;
             const teamMember = new Engineer(name, id, email, github);
@@ -112,12 +144,28 @@ function addEngineer() {
 function addIntern() {
     inquirer.prompt([
         {
-            message: "What is this intern's name?",
-            name: "name"
+            message: "What is this intern's name? (Required)",
+            name: "name",
+            validate: nameInput => {
+                if (nameInput) {
+                    return true;
+                } else {
+                    return "Please enter the intern's name";
+                }
+            }
         },
         {
             message: "What is this intern's email address?",
-            name: "email"
+            name: "email",
+            validate: email => {
+                const valid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
+
+                if (valid) {
+                    return true;
+                } else {
+                    return "Please enter a valid email address";
+                }
+            }
         },
         {
             message: "What is this intern's school?",
@@ -125,22 +173,22 @@ function addIntern() {
         }
     ])
 
-        .then(function (data) {
-            const name = data.name
-            const id = finalTeamArray.length + 1
-            const email = data.email
-            const school = data.school
-            const teamMember = new Intern(name, id, email, school)
-            finalTeamArray.push(teamMember)
+        .then(data => {
+            const name = data.name;
+            const id = finalTeamArray.length;
+            const email = data.email;
+            const school = data.school;
+            const teamMember = new Intern(name, id, email, school);
+            finalTeamArray.push(teamMember);
             addTeamMembers()
         });
 
 };
 
 function compileTeam() {
-    console.log("//////////You've done it!!! Now give your team a raise.////////")
+    console.log("Wonderful! You have now successfully created your team's profile");
 
-    const htmlArray = []
+    const htmlArray = [];
     const htmlBeginning = `
     <!DOCTYPE html>
         <html lang="en">
@@ -171,13 +219,13 @@ function compileTeam() {
                 <h2>${finalTeamArray[i].title}</h2>
             </div>
             <div class="card-bottom">
-                <p>Employee ID: ${finalTeamArray[i].id}</p>
-                <p>Email: <a href="mailto:${finalTeamArray[i].email}">${finalTeamArray[i].email}</a>></p>
+                <p>ID: ${finalTeamArray[i].id}</p>
+                <p>Email: <a href="mailto:${finalTeamArray[i].email}">${finalTeamArray[i].email}</a></p>
         `;
 
         if (finalTeamArray[i].officeNumber) {
             object += `
-            <p>${finalTeamArray[i].officeNumber}</p>
+            <p>Office Number: ${finalTeamArray[i].officeNumber}</p>
             `
         }
 
@@ -209,7 +257,7 @@ function compileTeam() {
 
     htmlArray.push(htmlEnd);
 
-    fs.writeFile(`./dist/${finalTeamArray[0]}.html`, htmlArray.join(""), function (err) {
+    fs.writeFile(`./dist/${finalTeamArray[0].toLowerCase().split(' ').join('-')}.html`, htmlArray.join(""), function (err) {
 
     })
 }
