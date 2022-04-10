@@ -31,7 +31,15 @@ THEN I am prompted to enter the intern’s name, ID, email, and school, and I am
 WHEN I decide to finish building my team
 THEN I exit the application, and the HTML is generated
 ```
+## Installation
+Please see below for installation requirements:
+
+Please first install node.js and then run the following command into your terminal: npm install
 
 ### Mock-Up
 
 ![](images/mock-up.PNG)
+
+## Video
+Please click on the following link to see the Demo video for this project:
+[Link to Demo](https://watch.screencastify.com/v/NXVAsswmfq5m5EMlsMv2)
