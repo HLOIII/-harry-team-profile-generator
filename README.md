@@ -34,4 +34,4 @@ THEN I exit the application, and the HTML is generated
 
 ### Mock-Up
 
-![](images/mock-up.jpg)
+![](images/mock-up.PNG)
